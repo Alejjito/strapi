@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_week_week_components",
+  "info": {
+    "displayName": "week-component",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "weekday": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::weekday.weekday"
+    },
+    "digit_min": {
+      "type": "integer"
+    },
+    "digit_max": {
+      "type": "integer"
+    },
+    "apply": {
+      "type": "boolean",
+      "default": true
+    }
+  }
+}

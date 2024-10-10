@@ -1,0 +1,40 @@
+{
+  "kind": "collectionType",
+  "collectionName": "vehicle_types",
+  "info": {
+    "singularName": "vehicle-type",
+    "pluralName": "vehicle-types",
+    "displayName": "Vehicle Type",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "slug": {
+      "type": "uid",
+      "required": true,
+      "targetField": "name"
+    },
+    "digit": {
+      "type": "enumeration",
+      "enum": [
+        "first",
+        "last"
+      ]
+    },
+    "peak_and_plates": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::peak-and-plate.peak-and-plate",
+      "mappedBy": "vehicle_types"
+    }
+  }
+}

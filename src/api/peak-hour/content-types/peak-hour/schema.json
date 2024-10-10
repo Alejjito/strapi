@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "peak_hours",
+  "info": {
+    "singularName": "peak-hour",
+    "pluralName": "peak-hours",
+    "displayName": "peak-hour",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "start_time": {
+      "type": "time"
+    },
+    "end_time": {
+      "type": "time"
+    },
+    "active": {
+      "type": "boolean",
+      "default": true
+    }
+  }
+}

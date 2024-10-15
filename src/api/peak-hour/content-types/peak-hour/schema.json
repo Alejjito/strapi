@@ -26,9 +26,9 @@
     },
     "vehicle_types": {
       "type": "relation",
-      "relation": "oneToMany",
+      "relation": "manyToMany",
       "target": "api::vehicle-type.vehicle-type",
-      "mappedBy": "schedule"
+      "mappedBy": "schedules"
     },
     "peak_and_plates": {
       "type": "relation",

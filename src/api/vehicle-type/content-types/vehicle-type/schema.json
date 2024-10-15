@@ -30,9 +30,9 @@
         "last"
       ]
     },
-    "schedule": {
+    "schedules": {
       "type": "relation",
-      "relation": "manyToOne",
+      "relation": "manyToMany",
       "target": "api::peak-hour.peak-hour",
       "inversedBy": "vehicle_types"
     }

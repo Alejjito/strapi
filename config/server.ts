@@ -1,5 +1,5 @@
 export default ({ env }) => ({
-  host: env("HOST", "192.168.0.10"),
+  host: env("HOST", "0.0.0.0"),
   port: env.int("PORT", 1337),
   cron: true,
   app: {

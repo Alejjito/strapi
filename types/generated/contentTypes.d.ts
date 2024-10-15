@@ -635,7 +635,7 @@ export interface ApiPeakHourPeakHour extends Struct.CollectionTypeSchema {
     name: Schema.Attribute.String;
     time_slot: Schema.Attribute.Component<'time.time-slot', true>;
     vehicle_types: Schema.Attribute.Relation<
-      'oneToMany',
+      'manyToMany',
       'api::vehicle-type.vehicle-type'
     >;
     peak_and_plates: Schema.Attribute.Relation<
@@ -673,8 +673,8 @@ export interface ApiVehicleTypeVehicleType extends Struct.CollectionTypeSchema {
     description: Schema.Attribute.String;
     slug: Schema.Attribute.UID<'name'> & Schema.Attribute.Required;
     digit: Schema.Attribute.Enumeration<['first', 'last']>;
-    schedule: Schema.Attribute.Relation<
-      'manyToOne',
+    schedules: Schema.Attribute.Relation<
+      'manyToMany',
       'api::peak-hour.peak-hour'
     >;
     createdAt: Schema.Attribute.DateTime;

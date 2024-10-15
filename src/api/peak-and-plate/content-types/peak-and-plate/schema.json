@@ -15,22 +15,18 @@
     "city": {
       "type": "relation",
       "relation": "oneToOne",
-      "target": "api::city.city"
+      "target": "api::city.city",
+      "inversedBy": "peak_and_plate"
     },
-    "peak_hour": {
+    "schedules": {
       "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::peak-hour.peak-hour"
+      "relation": "manyToMany",
+      "target": "api::peak-hour.peak-hour",
+      "mappedBy": "peak_and_plates"
     },
     "active": {
       "type": "boolean",
       "default": true
-    },
-    "vehicle_types": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::vehicle-type.vehicle-type",
-      "inversedBy": "peak_and_plates"
     },
     "weekday": {
       "type": "component",

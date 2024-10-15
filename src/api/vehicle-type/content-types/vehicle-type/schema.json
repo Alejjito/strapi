@@ -30,11 +30,11 @@
         "last"
       ]
     },
-    "peak_and_plates": {
+    "schedule": {
       "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::peak-and-plate.peak-and-plate",
-      "mappedBy": "vehicle_types"
+      "relation": "manyToOne",
+      "target": "api::peak-hour.peak-hour",
+      "inversedBy": "vehicle_types"
     }
   }
 }

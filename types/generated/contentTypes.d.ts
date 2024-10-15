@@ -441,7 +441,6 @@ export interface PluginUsersPermissionsUser
     displayName: 'User';
   };
   options: {
-    timestamps: true;
     draftAndPublish: false;
   };
   attributes: {
@@ -470,6 +469,7 @@ export interface PluginUsersPermissionsUser
       'manyToOne',
       'plugin::users-permissions.role'
     >;
+    vehicles: Schema.Attribute.Component<'user.vehicle-plate', true>;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -503,6 +503,10 @@ export interface ApiCityCity extends Struct.CollectionTypeSchema {
       Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<true>;
     slug: Schema.Attribute.UID<'name'> & Schema.Attribute.Required;
+    peak_and_plate: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::peak-and-plate.peak-and-plate'
+    >;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -512,6 +516,71 @@ export interface ApiCityCity extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     locale: Schema.Attribute.String;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::city.city'>;
+  };
+}
+
+export interface ApiExceptionException extends Struct.CollectionTypeSchema {
+  collectionName: 'exceptions';
+  info: {
+    singularName: 'exception';
+    pluralName: 'exceptions';
+    displayName: 'Exception';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    date: Schema.Attribute.Date;
+    time_slot: Schema.Attribute.Component<'time.time-slot', true>;
+    description: Schema.Attribute.Text;
+    all_day: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    exception_type: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::exception-type.exception-type'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::exception.exception'
+    >;
+  };
+}
+
+export interface ApiExceptionTypeExceptionType
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'exception_types';
+  info: {
+    singularName: 'exception-type';
+    pluralName: 'exception-types';
+    displayName: 'Exception-type';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Schema.Attribute.String;
+    slug: Schema.Attribute.UID<'name'>;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::exception-type.exception-type'
+    >;
   };
 }
 
@@ -529,15 +598,11 @@ export interface ApiPeakAndPlatePeakAndPlate
   };
   attributes: {
     city: Schema.Attribute.Relation<'oneToOne', 'api::city.city'>;
-    peak_hour: Schema.Attribute.Relation<
-      'oneToOne',
+    schedules: Schema.Attribute.Relation<
+      'manyToMany',
       'api::peak-hour.peak-hour'
     >;
     active: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
-    vehicle_types: Schema.Attribute.Relation<
-      'manyToMany',
-      'api::vehicle-type.vehicle-type'
-    >;
     weekday: Schema.Attribute.Component<'week.week-component', true>;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
@@ -559,16 +624,24 @@ export interface ApiPeakHourPeakHour extends Struct.CollectionTypeSchema {
   info: {
     singularName: 'peak-hour';
     pluralName: 'peak-hours';
-    displayName: 'peak-hour';
+    displayName: 'schedule';
     description: '';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
-    start_time: Schema.Attribute.Time;
-    end_time: Schema.Attribute.Time;
     active: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    name: Schema.Attribute.String;
+    time_slot: Schema.Attribute.Component<'time.time-slot', true>;
+    vehicle_types: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::vehicle-type.vehicle-type'
+    >;
+    peak_and_plates: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::peak-and-plate.peak-and-plate'
+    >;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -600,9 +673,9 @@ export interface ApiVehicleTypeVehicleType extends Struct.CollectionTypeSchema {
     description: Schema.Attribute.String;
     slug: Schema.Attribute.UID<'name'> & Schema.Attribute.Required;
     digit: Schema.Attribute.Enumeration<['first', 'last']>;
-    peak_and_plates: Schema.Attribute.Relation<
-      'manyToMany',
-      'api::peak-and-plate.peak-and-plate'
+    schedule: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::peak-hour.peak-hour'
     >;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
@@ -632,7 +705,6 @@ export interface ApiWeekdayWeekday extends Struct.CollectionTypeSchema {
   };
   attributes: {
     name: Schema.Attribute.String;
-    order: Schema.Attribute.Integer;
     slug: Schema.Attribute.UID<'name'> & Schema.Attribute.Required;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
@@ -1025,6 +1097,8 @@ declare module '@strapi/strapi' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::city.city': ApiCityCity;
+      'api::exception.exception': ApiExceptionException;
+      'api::exception-type.exception-type': ApiExceptionTypeExceptionType;
       'api::peak-and-plate.peak-and-plate': ApiPeakAndPlatePeakAndPlate;
       'api::peak-hour.peak-hour': ApiPeakHourPeakHour;
       'api::vehicle-type.vehicle-type': ApiVehicleTypeVehicleType;

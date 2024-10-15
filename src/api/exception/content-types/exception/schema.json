@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "exceptions",
+  "info": {
+    "singularName": "exception",
+    "pluralName": "exceptions",
+    "displayName": "Exception",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "date": {
+      "type": "date"
+    },
+    "time_slot": {
+      "displayName": "time_slot",
+      "type": "component",
+      "repeatable": true,
+      "component": "time.time-slot"
+    },
+    "description": {
+      "type": "text"
+    },
+    "all_day": {
+      "type": "boolean",
+      "default": false
+    },
+    "exception_type": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::exception-type.exception-type"
+    }
+  }
+}

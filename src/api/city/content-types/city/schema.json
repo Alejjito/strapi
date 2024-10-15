@@ -28,6 +28,12 @@
       "type": "uid",
       "targetField": "name",
       "required": true
+    },
+    "peak_and_plate": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::peak-and-plate.peak-and-plate",
+      "mappedBy": "city"
     }
   }
 }

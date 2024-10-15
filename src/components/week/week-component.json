@@ -6,7 +6,7 @@
   },
   "options": {},
   "attributes": {
-    "weekday": {
+    "day": {
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::weekday.weekday"

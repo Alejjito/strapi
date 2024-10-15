@@ -4,7 +4,7 @@
   "info": {
     "singularName": "peak-hour",
     "pluralName": "peak-hours",
-    "displayName": "peak-hour",
+    "displayName": "schedule",
     "description": ""
   },
   "options": {
@@ -12,15 +12,29 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "start_time": {
-      "type": "time"
-    },
-    "end_time": {
-      "type": "time"
-    },
     "active": {
       "type": "boolean",
       "default": true
+    },
+    "name": {
+      "type": "string"
+    },
+    "time_slot": {
+      "type": "component",
+      "repeatable": true,
+      "component": "time.time-slot"
+    },
+    "vehicle_types": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::vehicle-type.vehicle-type",
+      "mappedBy": "schedule"
+    },
+    "peak_and_plates": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::peak-and-plate.peak-and-plate",
+      "inversedBy": "schedules"
     }
   }
 }
